@@ -19,22 +19,36 @@ import org.apache.commons.lang3.StringUtils;
 public class EcritureComptable {
 
     // ==================== Attributs ====================
-    /** The Id. */
+    /**
+     * The Id.
+     */
     private Integer id;
-    /** Journal comptable */
-    @NotNull private JournalComptable journal;
-    /** The Reference. */
+    /**
+     * Journal comptable
+     */
+    @NotNull
+    private JournalComptable journal;
+    /**
+     * The Reference.
+     */
     @Pattern(regexp = "\\d{1,5}-\\d{4}/\\d{5}")
     private String reference;
-    /** The Date. */
-    @NotNull private Date date;
+    /**
+     * The Date.
+     */
+    @NotNull
+    private Date date;
 
-    /** The Libelle. */
+    /**
+     * The Libelle.
+     */
     @NotNull
     @Size(min = 1, max = 200)
     private String libelle;
 
-    /** La liste des lignes d'écriture comptable. */
+    /**
+     * La liste des lignes d'écriture comptable.
+     */
     @Valid
     @Size(min = 2)
     private final List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
@@ -44,33 +58,43 @@ public class EcritureComptable {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer pId) {
         id = pId;
     }
+
     public JournalComptable getJournal() {
         return journal;
     }
+
     public void setJournal(JournalComptable pJournal) {
         journal = pJournal;
     }
+
     public String getReference() {
         return reference;
     }
+
     public void setReference(String pReference) {
         reference = pReference;
     }
+
     public Date getDate() {
         return date;
     }
+
     public void setDate(Date pDate) {
         date = pDate;
     }
+
     public String getLibelle() {
         return libelle;
     }
+
     public void setLibelle(String pLibelle) {
         libelle = pLibelle;
     }
+
     public List<LigneEcritureComptable> getListLigneEcriture() {
         return listLigneEcriture;
     }
@@ -99,8 +123,8 @@ public class EcritureComptable {
     public BigDecimal getTotalCredit() {
         BigDecimal vRetour = BigDecimal.ZERO;
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
-            if (vLigneEcritureComptable.getDebit() != null) {
-                vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
+            if (vLigneEcritureComptable.getCredit() != null) {
+                vRetour = vRetour.add(vLigneEcritureComptable.getCredit());
             }
         }
         return vRetour;
@@ -108,11 +132,15 @@ public class EcritureComptable {
 
     /**
      * Renvoie si l'écriture est équilibrée (TotalDebit = TotalCrédit)
+     *
      * @return boolean
      */
     public boolean isEquilibree() {
-        boolean vRetour = this.getTotalDebit().equals(getTotalCredit());
-        return vRetour;
+
+        // CORRECTION
+
+        boolean diff = getTotalDebit().compareTo(getTotalCredit()) == 0;
+        return diff;
     }
 
     // ==================== Méthodes ====================
@@ -121,16 +149,16 @@ public class EcritureComptable {
         final StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());
         final String vSEP = ", ";
         vStB.append("{")
-            .append("id=").append(id)
-            .append(vSEP).append("journal=").append(journal)
-            .append(vSEP).append("reference='").append(reference).append('\'')
-            .append(vSEP).append("date=").append(date)
-            .append(vSEP).append("libelle='").append(libelle).append('\'')
-            .append(vSEP).append("totalDebit=").append(this.getTotalDebit().toPlainString())
-            .append(vSEP).append("totalCredit=").append(this.getTotalCredit().toPlainString())
-            .append(vSEP).append("listLigneEcriture=[\n")
-            .append(StringUtils.join(listLigneEcriture, "\n")).append("\n]")
-            .append("}");
+                .append("id=").append(id)
+                .append(vSEP).append("journal=").append(journal)
+                .append(vSEP).append("reference='").append(reference).append('\'')
+                .append(vSEP).append("date=").append(date)
+                .append(vSEP).append("libelle='").append(libelle).append('\'')
+                .append(vSEP).append("totalDebit=").append(this.getTotalDebit().toPlainString())
+                .append(vSEP).append("totalCredit=").append(this.getTotalCredit().toPlainString())
+                .append(vSEP).append("listLigneEcriture=[\n")
+                .append(StringUtils.join(listLigneEcriture, "\n")).append("\n]")
+                .append("}");
         return vStB.toString();
     }
 }
