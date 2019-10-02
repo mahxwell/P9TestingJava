@@ -1,11 +1,8 @@
 package com.dummy.myerp.consumer.daotest;
 
+import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.testconsumer.consumer.ConsumerTestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -116,17 +113,22 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
         comptabiliteDao.insertEcritureComptable(ecritureComptableM);
 
         /**
-         * Delete previous inserted Values
+         * Get Previously created ecriture comptable obj
          */
-        EcritureComptable ecritureBis = comptabiliteDao.getEcritureComptableByRef("MM-" + year + "/77777");
+        EcritureComptable ecritureComptable = comptabiliteDao.getEcritureComptableByRef("MM-" + year + "/77777");
 
-        comptabiliteDao.deleteEcritureComptable(ecritureBis.getId());
 
         /**
          * Assert Test
          */
-        Assert.assertEquals(ecritureComptableM.getReference(), ecritureBis.getReference());
-        Assert.assertEquals(ecritureComptableM.getLibelle(), ecritureBis.getLibelle());
+        Assert.assertEquals(ecritureComptableM.getReference(), ecritureComptable.getReference());
+        Assert.assertEquals(ecritureComptableM.getLibelle(), ecritureComptable.getLibelle());
+
+        /**
+         * Delete previous inserted Values
+         */
+        comptabiliteDao.deleteEcritureComptable(ecritureComptable.getId());
+
     }
 
 
@@ -148,19 +150,20 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
         /**
          * Updating requested Object ->(With reference)
          */
-        EcritureComptable ecriture = comptabiliteDao.getEcritureComptableByRef("NN-2019/9999");
-        ecriture.setLibelle("updateTest");
-        comptabiliteDao.updateEcritureComptable(ecriture);
+        EcritureComptable ecritureComptable = comptabiliteDao.getEcritureComptableByRef("NN-2019/9999");
+
+        ecritureComptable.setLibelle("updateTest");
+        comptabiliteDao.updateEcritureComptable(ecritureComptable);
 
         /**
          * Assert Test
          */
-        Assert.assertEquals("updateTest", ecriture.getLibelle());
+        Assert.assertEquals("updateTest", ecritureComptable.getLibelle());
 
         /**
          * Delete Data in Data Base
          */
-        comptabiliteDao.deleteEcritureComptable(ecriture.getId());
+        comptabiliteDao.deleteEcritureComptable(ecritureComptable.getId());
     }
 
     @Test
@@ -190,5 +193,135 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
          * Delete Data in Data Base
          */
         comptabiliteDao.deleteEcritureComptable(ecritureComptable.getId());
+    }
+
+    @Test
+    public void getSequenceEcritureComptable() throws NotFoundException {
+
+        /**
+         * Get Two sequence rows
+         */
+        SequenceEcritureComptable sequence1 = comptabiliteDao.getSequenceEcritureComptable("AC", 2016);
+        SequenceEcritureComptable sequence2 = comptabiliteDao.getSequenceEcritureComptable("AC", 2016);
+
+        /**
+         * Check if they are null
+         */
+        Assert.assertNotNull(sequence1);
+        Assert.assertNotNull(sequence2);
+
+        /**
+         * Check if they are equal
+         */
+        Assert.assertEquals(sequence1.toString(), sequence2.toString());
+    }
+
+    @Test
+    public void insertSequenceEcritureComptable() throws NotFoundException {
+
+        SequenceEcritureComptable sequence = new SequenceEcritureComptable();
+
+        /**
+         * Set a sequence
+         */
+        sequence.setDerniereValeur(666);
+        sequence.setAnnee(1998);
+
+        /**
+         * Insert sequence
+         */
+        comptabiliteDao.insertSequenceEcritureComptable(sequence, "VE");
+
+
+        /**
+         * Get sequence previously created
+         */
+        SequenceEcritureComptable sequence2 = comptabiliteDao.getSequenceEcritureComptable("VE", 1998);
+
+        /**
+         * Assert test
+         */
+        String test = "666";
+        Assert.assertEquals(test, sequence2.getDerniereValeur().toString());
+
+        /**
+         * Delete sequence previously created
+         */
+        comptabiliteDao.deleteSequenceEcritureComptable(sequence2, "VE");
+    }
+
+    @Test
+    public void updateSequenceEcritureComptable() throws NotFoundException {
+
+        /**
+         * get sequence
+         */
+        SequenceEcritureComptable sequence = comptabiliteDao.getSequenceEcritureComptable("VE", 2016);
+
+        /**
+         * Set sequence
+         */
+        sequence.setDerniereValeur(666);
+
+        /**
+         * Update sequence previously got
+         */
+        comptabiliteDao.updateSequenceEcritureComptable(sequence, "VE");
+
+
+        /**
+         * Get again same sequence
+         */
+        sequence = comptabiliteDao.getSequenceEcritureComptable("VE", 2016);
+
+        /**
+         * Assert test, check if modifications are done
+         */
+        String test = "666";
+        Assert.assertEquals(test, sequence.getDerniereValeur().toString());
+
+
+        /**
+         * Put value back to original one (41)
+         */
+        sequence = comptabiliteDao.getSequenceEcritureComptable("VE", 2016);
+
+        sequence.setDerniereValeur(41);
+        comptabiliteDao.updateSequenceEcritureComptable(sequence, "VE");
+
+    }
+
+    @Test
+    public void deleteSequenceEcritureComptable() throws NotFoundException {
+        SequenceEcritureComptable sequence = new SequenceEcritureComptable();
+
+        /**
+         * Set a sequence
+         */
+        sequence.setDerniereValeur(666);
+        sequence.setAnnee(1998);
+
+        /**
+         * Insert sequence
+         */
+        comptabiliteDao.insertSequenceEcritureComptable(sequence, "VE");
+
+
+        /**
+         * Get sequence previously created
+         */
+        SequenceEcritureComptable sequence2 = comptabiliteDao.getSequenceEcritureComptable("VE", 1998);
+
+        /**
+         * Assert test
+         */
+        String test = "666";
+        Assert.assertEquals(test, sequence2.getDerniereValeur().toString());
+
+        /**
+         * Delete sequence previously created
+         */
+        comptabiliteDao.deleteSequenceEcritureComptable(sequence2, "VE");
+
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
 
@@ -15,6 +16,7 @@ public interface ComptabiliteDao {
 
     /**
      * Renvoie la liste des Comptes Comptables
+     *
      * @return {@link List}
      */
     List<CompteComptable> getListCompteComptable();
@@ -22,6 +24,7 @@ public interface ComptabiliteDao {
 
     /**
      * Renvoie la liste des Journaux Comptables
+     *
      * @return {@link List}
      */
     List<JournalComptable> getListJournalComptable();
@@ -31,6 +34,7 @@ public interface ComptabiliteDao {
 
     /**
      * Renvoie la liste des Écritures Comptables
+     *
      * @return {@link List}
      */
     List<EcritureComptable> getListEcritureComptable();
@@ -80,4 +84,36 @@ public interface ComptabiliteDao {
      * @param pId l'id de l'écriture
      */
     void deleteEcritureComptable(Integer pId);
+
+    /**
+     * Renvoie la liste des séquences ecritures comptables
+     *
+     * @return {@link List}
+     */
+    SequenceEcritureComptable getSequenceEcritureComptable(String journalCode, int pAnnee) throws NotFoundException;
+
+
+    /**
+     * Insert une nouvelle séquence écriture comptable
+     *
+     * @param pSequenceEcritureComptable la séquence a ajouter
+     * @param journalCode                le code journal de la séquence
+     */
+    void insertSequenceEcritureComptable(final SequenceEcritureComptable pSequenceEcritureComptable, final String journalCode);
+
+    /**
+     * Met a jour la séquence écriture comptable
+     *
+     * @param pSequenceEcritureComptable l'écriture comptable
+     * @param journalCode                le code journal de l'écriture
+     */
+    void updateSequenceEcritureComptable(final SequenceEcritureComptable pSequenceEcritureComptable, final String journalCode);
+
+    /**
+     * Supprime une séquence écriture comptable
+     *
+     * @param seq         la séquence a supprimer
+     * @param journalCode le journal code de la séquence
+     */
+    void deleteSequenceEcritureComptable(SequenceEcritureComptable seq, String journalCode);
 }

@@ -3,8 +3,8 @@ package com.dummy.myerp.consumer.daotest.RowMapper;
 import com.dummy.myerp.consumer.ConsumerHelper;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
-import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.CompteComptableRM;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
+import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.SequenceEcritureComptableRM;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +16,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 @RunWith(MockitoJUnitRunner.class)
-public class CompteComptableRMTest {
+public class SequenceEcritureComptableRMTest {
 
     /**
      * Using Mockito To Test Spring RowMapper
@@ -45,7 +44,6 @@ public class CompteComptableRMTest {
         Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
     }
 
-
     /**
      * Unit Test RowMapper
      *
@@ -54,27 +52,30 @@ public class CompteComptableRMTest {
     @Test
     public void mapRow() throws SQLException {
 
-        CompteComptableRM compteComptableRM = new CompteComptableRM();
+        SequenceEcritureComptableRM rowmapper = new SequenceEcritureComptableRM();
 
         /**
          * Get Row Name and add value in it
          */
-        Mockito.when(resultSet.getInt("numero")).thenReturn(1);
-        Mockito.when(resultSet.getString("libelle")).thenReturn("testRowMapper");
+        Mockito.when(resultSet.getString("journal_code")).thenReturn("AC");
+        Mockito.when(resultSet.getInt("annee")).thenReturn(7777);
+        Mockito.when(resultSet.getInt("derniere_valeur")).thenReturn(6666);
 
-        CompteComptable compteComptable1 = compteComptableRM.mapRow(resultSet, 0);
 
-        CompteComptable compteComptable2 = compteComptableRM.mapRow(resultSet, 0);
+        SequenceEcritureComptable sequence1 = rowmapper.mapRow(resultSet, 0);
+        SequenceEcritureComptable sequence2 = rowmapper.mapRow(resultSet, 0);
 
         /**
          * Assert Test Not Null for each Obj previously created
          */
-        Assert.assertNotNull(compteComptable1);
-        Assert.assertNotNull(compteComptable2);
+        Assert.assertNotNull(sequence1);
+        Assert.assertNotNull(sequence2);
 
         /**
          * Check if two previously obj are equal
          */
-        Assert.assertEquals(compteComptable1.toString(), compteComptable2.toString());
+        Assert.assertEquals(sequence1.toString(), sequence2.toString());
+
     }
+
 }

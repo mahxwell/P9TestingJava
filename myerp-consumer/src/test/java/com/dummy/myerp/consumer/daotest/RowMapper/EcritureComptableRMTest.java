@@ -20,6 +20,13 @@ import java.sql.SQLException;
 @RunWith(MockitoJUnitRunner.class)
 public class EcritureComptableRMTest {
 
+    /**
+     * Using Mockito To Test Spring RowMapper
+     */
+
+    /**
+     * Mock
+     */
     @Mock
     private DaoProxy daoProxy;
 
@@ -29,16 +36,29 @@ public class EcritureComptableRMTest {
     @Mock
     private ResultSet resultSet;
 
+    /**
+     * Set up for Mockito
+     */
     @Before
     public void setUp() {
         ConsumerHelper.configure(daoProxy);
         Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
     }
 
+    /**
+     * Unit Test RowMapper
+     *
+     * @throws SQLException
+     */
     @Test
     public void mapRow() throws SQLException {
+
         EcritureComptableRM ecritureComptableRM = new EcritureComptableRM();
 
+
+        /**
+         * Get Row Name and add value in it
+         */
         Mockito.when(resultSet.getInt("id")).thenReturn(1);
         Mockito.when(resultSet.getString("journal_code")).thenReturn("ABCTEST");
         Mockito.when(resultSet.getString("reference")).thenReturn("TESTROW");
@@ -50,9 +70,15 @@ public class EcritureComptableRMTest {
         EcritureComptable ecritureComptable2 = ecritureComptableRM.mapRow(resultSet, 0);
 
 
+        /**
+         * Assert Test Not Null for each Obj previously created
+         */
         Assert.assertNotNull(ecritureComptable1);
         Assert.assertNotNull(ecritureComptable2);
 
+        /**
+         * Check if two previously obj are equal
+         */
         Assert.assertEquals(ecritureComptable1.toString(), ecritureComptable2.toString());
     }
 }

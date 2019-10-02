@@ -89,6 +89,39 @@
                 WHERE ecriture_id = :ecriture_id
             </value>
         </property>
+      <!--  add sequence queries CRUD-->
+        <property name="SQLgetSequenceEcritureComptable">
+            <value>
+                SELECT * FROM myerp.sequence_ecriture_comptable
+                WHERE journal_code = :journal_code AND annee = :annee
+            </value>
+        </property>
+
+        <property name="SQLinsertSequenceEcritureComptable">
+            <value>
+                INSERT INTO myerp.sequence_ecriture_comptable (
+                journal_code, annee, derniere_valeur
+                ) VALUES (
+                :journal_code, :annee, :derniere_valeur
+                )
+            </value>
+        </property>
+
+        <property name="SQLupdateSequenceEcritureComptable">
+            <value>
+                UPDATE myerp.sequence_ecriture_comptable SET
+                derniere_valeur = :derniere_valeur
+                WHERE
+                journal_code = :journal_code AND annee = :annee
+            </value>
+        </property>
+
+        <property name="SQLdeleteSequenceEcritureComptable">
+            <value>
+                DELETE FROM myerp.sequence_ecriture_comptable
+                WHERE journal_code = :journal_code AND annee = :annee
+            </value>
+        </property>
     </bean>
 
 </beans>
