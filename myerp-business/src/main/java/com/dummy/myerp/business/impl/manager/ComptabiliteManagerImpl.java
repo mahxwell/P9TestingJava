@@ -1,20 +1,19 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import com.dummy.myerp.model.bean.comptabilite.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.TransactionStatus;
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -28,6 +27,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
 
     // ==================== Constructeurs ====================
+
     /**
      * Instantiates a new Comptabilite manager.
      */
@@ -60,7 +60,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     // TODO à tester
     @Override
-    public synchronized void addReference(EcritureComptable pEcritureComptable) {
+    public synchronized void addReference(EcritureComptable pEcritureComptable) throws FunctionalException, NotFoundException {
         // TODO à implémenter
         // Bien se réferer à la JavaDoc de cette méthode !
         /* Le principe :
@@ -74,6 +74,33 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 4.  Enregistrer (insert/update) la valeur de la séquence en persitance
                     (table sequence_ecriture_comptable)
          */
+
+        Date d = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        int year = calendar.get(Calendar.YEAR);
+
+        SequenceEcritureComptable sequenceEcritureComptable = getDaoProxy().getComptabiliteDao()
+                .getSequenceEcritureComptable(pEcritureComptable.getJournal().getCode(), year);
+
+        if (sequenceEcritureComptable == null) {
+            sequenceEcritureComptable = new SequenceEcritureComptable();
+            sequenceEcritureComptable.setAnnee(year);
+            sequenceEcritureComptable.setDerniereValeur(1);
+
+            pEcritureComptable.setReference(pEcritureComptable.getJournal().getCode() + "-" + year + "/" + "00001");
+            insertSequenceEcritureComptable(sequenceEcritureComptable, pEcritureComptable.getJournal().getCode());
+
+
+        } else {
+
+            int seqNum = sequenceEcritureComptable.getDerniereValeur() + 1;
+
+            String reference = pEcritureComptable.getJournal().getCode() + "-" + year + "/" + String.format("%05d", seqNum);
+            pEcritureComptable.setReference(reference);
+            updateSequenceEcritureComptable(sequenceEcritureComptable, pEcritureComptable.getJournal().getCode());
+
+        }
     }
 
     /**
@@ -100,9 +127,9 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
         if (!vViolations.isEmpty()) {
             throw new FunctionalException("L'écriture comptable ne respecte pas les règles de gestion.",
-                                          new ConstraintViolationException(
-                                              "L'écriture comptable ne respecte pas les contraintes de validation",
-                                              vViolations));
+                    new ConstraintViolationException(
+                            "L'écriture comptable ne respecte pas les contraintes de validation",
+                            vViolations));
         }
 
         // ===== RG_Compta_2 : Pour qu'une écriture comptable soit valide, elle doit être équilibrée
@@ -115,25 +142,40 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         int vNbrDebit = 0;
         for (LigneEcritureComptable vLigneEcritureComptable : pEcritureComptable.getListLigneEcriture()) {
             if (BigDecimal.ZERO.compareTo(ObjectUtils.defaultIfNull(vLigneEcritureComptable.getCredit(),
-                                                                    BigDecimal.ZERO)) != 0) {
+                    BigDecimal.ZERO)) != 0) {
                 vNbrCredit++;
             }
             if (BigDecimal.ZERO.compareTo(ObjectUtils.defaultIfNull(vLigneEcritureComptable.getDebit(),
-                                                                    BigDecimal.ZERO)) != 0) {
+                    BigDecimal.ZERO)) != 0) {
                 vNbrDebit++;
             }
         }
         // On test le nombre de lignes car si l'écriture à une seule ligne
         //      avec un montant au débit et un montant au crédit ce n'est pas valable
         if (pEcritureComptable.getListLigneEcriture().size() < 2
-            || vNbrCredit < 1
-            || vNbrDebit < 1) {
+                || vNbrCredit < 1
+                || vNbrDebit < 1) {
             throw new FunctionalException(
-                "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
+                    "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
         }
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+
+        Date d = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        String date = Integer.toString(calendar.get(Calendar.YEAR));
+
+        String[] splitPart = pEcritureComptable.getReference().split("(?U)[\\p{Punct}&&[^@',&]]");
+        String codeJournalPart = splitPart[0];
+        String datePart = splitPart[1];
+
+        if (!datePart.equals(date))
+            throw new FunctionalException("L'année de la référence est différente de l'année d'écriture.");
+
+        if (!codeJournalPart.equals(pEcritureComptable.getJournal().getCode()))
+            throw new FunctionalException("Le code journal de la référence est différent du code journal.");
     }
 
 
@@ -150,13 +192,13 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             try {
                 // Recherche d'une écriture ayant la même référence
                 EcritureComptable vECRef = getDaoProxy().getComptabiliteDao().getEcritureComptableByRef(
-                    pEcritureComptable.getReference());
+                        pEcritureComptable.getReference());
 
                 // Si l'écriture à vérifier est une nouvelle écriture (id == null),
                 // ou si elle ne correspond pas à l'écriture trouvée (id != idECRef),
                 // c'est qu'il y a déjà une autre écriture avec la même référence
                 if (pEcritureComptable.getId() == null
-                    || !pEcritureComptable.getId().equals(vECRef.getId())) {
+                        || !pEcritureComptable.getId().equals(vECRef.getId())) {
                     throw new FunctionalException("Une autre écriture comptable existe déjà avec la même référence.");
                 }
             } catch (NotFoundException vEx) {
@@ -204,6 +246,30 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().deleteEcritureComptable(pId);
+            getTransactionManager().commitMyERP(vTS);
+            vTS = null;
+        } finally {
+            getTransactionManager().rollbackMyERP(vTS);
+        }
+    }
+
+    @Override
+    public void insertSequenceEcritureComptable(final SequenceEcritureComptable sequence, final String code) {
+        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
+        try {
+            getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(sequence, code);
+            getTransactionManager().commitMyERP(vTS);
+            vTS = null;
+        } finally {
+            getTransactionManager().rollbackMyERP(vTS);
+        }
+    }
+
+    @Override
+    public void updateSequenceEcritureComptable(final SequenceEcritureComptable sequence, String code) {
+        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
+        try {
+            getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sequence, code);
             getTransactionManager().commitMyERP(vTS);
             vTS = null;
         } finally {

@@ -76,6 +76,7 @@ public class EcritureComptableRMTest {
         Assert.assertNotNull(ecritureComptable1);
         Assert.assertNotNull(ecritureComptable2);
 
+
         /**
          * Check if two previously obj are equal
          */
