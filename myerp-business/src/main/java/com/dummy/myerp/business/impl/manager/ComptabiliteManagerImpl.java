@@ -55,6 +55,13 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         return getDaoProxy().getComptabiliteDao().getListEcritureComptable();
     }
 
+
+    @Override
+    public EcritureComptable getEcritureComptableByRef(final String pReference) throws NotFoundException {
+        return getDaoProxy().getComptabiliteDao().getEcritureComptableByRef(pReference);
+    }
+
+
     /**
      * {@inheritDoc}
      */
@@ -253,6 +260,16 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         }
     }
 
+
+    // ==================== SEQUENCE Method ============
+
+    @Override
+    public SequenceEcritureComptable getSequenceEcritureComptable(final String pJournalCode, final int pAnnee)
+            throws NotFoundException {
+        return getDaoProxy().getComptabiliteDao().getSequenceEcritureComptable(pJournalCode, pAnnee);
+    }
+
+
     @Override
     public void insertSequenceEcritureComptable(final SequenceEcritureComptable sequence, final String code) {
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
@@ -266,10 +283,23 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     }
 
     @Override
-    public void updateSequenceEcritureComptable(final SequenceEcritureComptable sequence, String code) {
+    public void updateSequenceEcritureComptable(final SequenceEcritureComptable sequence, final String code) {
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sequence, code);
+            getTransactionManager().commitMyERP(vTS);
+            vTS = null;
+        } finally {
+            getTransactionManager().rollbackMyERP(vTS);
+        }
+
+    }
+
+    @Override
+    public void deleteSequenceEcritureComptable(final SequenceEcritureComptable sequence, final String code) {
+        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
+        try {
+            getDaoProxy().getComptabiliteDao().deleteSequenceEcritureComptable(sequence, code);
             getTransactionManager().commitMyERP(vTS);
             vTS = null;
         } finally {

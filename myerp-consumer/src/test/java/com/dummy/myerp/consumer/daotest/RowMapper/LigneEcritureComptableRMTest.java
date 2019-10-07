@@ -58,9 +58,6 @@ public class LigneEcritureComptableRMTest {
         /**
          * Get Row Name and add value in it
          */
-        Mockito.when(resultSet.getInt("ecriture_id")).thenReturn(-1);
-        Mockito.when(resultSet.getInt("ligne_id")).thenReturn(33);
-        Mockito.when(resultSet.getInt("compte_comptable_numero")).thenReturn(666);
         Mockito.when(resultSet.getString("libelle")).thenReturn("TestLib");
         Mockito.when(resultSet.getBigDecimal("debit")).thenReturn(new BigDecimal(132.7));
         Mockito.when(resultSet.getBigDecimal("credit")).thenReturn(new BigDecimal(12421.88));

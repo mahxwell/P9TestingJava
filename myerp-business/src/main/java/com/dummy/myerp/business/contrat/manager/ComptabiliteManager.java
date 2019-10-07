@@ -50,6 +50,7 @@ public interface ComptabiliteManager {
      * <pre>BQ-2016/00001</pre>
      *
      * <p><strong>Attention :</strong> l'écriture n'est pas enregistrée en persistance</p>
+     *
      * @param pEcritureComptable L'écriture comptable concernée
      */
     void addReference(EcritureComptable pEcritureComptable) throws NotFoundException, FunctionalException;
@@ -85,8 +86,16 @@ public interface ComptabiliteManager {
      */
     void deleteEcritureComptable(Integer pId);
 
+    EcritureComptable getEcritureComptableByRef(final String pReference) throws NotFoundException;
 
-    void insertSequenceEcritureComptable(final SequenceEcritureComptable seq, String code);
+    // ==================== SEQUENCE ============
 
-    void updateSequenceEcritureComptable(final SequenceEcritureComptable seq, String code);
+    SequenceEcritureComptable getSequenceEcritureComptable(final String pJournalCode, final int pAnnee) throws NotFoundException;
+
+    void insertSequenceEcritureComptable(final SequenceEcritureComptable sequence, final String code);
+
+    void updateSequenceEcritureComptable(final SequenceEcritureComptable sequence, final String code);
+
+    void deleteSequenceEcritureComptable(final SequenceEcritureComptable sequence, final String code);
+
 }

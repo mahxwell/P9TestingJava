@@ -55,14 +55,12 @@ public class EcritureComptableRMTest {
 
         EcritureComptableRM ecritureComptableRM = new EcritureComptableRM();
 
-
         /**
          * Get Row Name and add value in it
          */
         Mockito.when(resultSet.getInt("id")).thenReturn(1);
         Mockito.when(resultSet.getString("journal_code")).thenReturn("ABCTEST");
         Mockito.when(resultSet.getString("reference")).thenReturn("TESTROW");
-        Mockito.when(resultSet.getDate(null)).thenReturn(null);
         Mockito.when(resultSet.getString("libelle")).thenReturn("TestLib");
 
         EcritureComptable ecritureComptable1 = ecritureComptableRM.mapRow(resultSet, 0);

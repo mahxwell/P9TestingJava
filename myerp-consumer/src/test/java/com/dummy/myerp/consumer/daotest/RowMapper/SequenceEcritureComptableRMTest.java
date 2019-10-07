@@ -1,12 +1,8 @@
 package com.dummy.myerp.consumer.daotest.RowMapper;
 
-import com.dummy.myerp.consumer.ConsumerHelper;
-import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
-import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.SequenceEcritureComptableRM;
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -27,22 +23,8 @@ public class SequenceEcritureComptableRMTest {
      * Mock
      */
     @Mock
-    private DaoProxy daoProxy;
-
-    @Mock
-    private static ComptabiliteDao comptabiliteDao;
-
-    @Mock
     private ResultSet resultSet;
 
-    /**
-     * Set up for Mockito
-     */
-    @Before
-    public void setUp() {
-        ConsumerHelper.configure(daoProxy);
-        Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
-    }
 
     /**
      * Unit Test RowMapper
@@ -57,7 +39,6 @@ public class SequenceEcritureComptableRMTest {
         /**
          * Get Row Name and add value in it
          */
-        Mockito.when(resultSet.getString("journal_code")).thenReturn("AC");
         Mockito.when(resultSet.getInt("annee")).thenReturn(7777);
         Mockito.when(resultSet.getInt("derniere_valeur")).thenReturn(6666);
 

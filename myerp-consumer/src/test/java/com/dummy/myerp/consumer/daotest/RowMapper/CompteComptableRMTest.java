@@ -1,12 +1,8 @@
 package com.dummy.myerp.consumer.daotest.RowMapper;
 
-import com.dummy.myerp.consumer.ConsumerHelper;
-import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
-import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.CompteComptableRM;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -28,23 +24,11 @@ public class CompteComptableRMTest {
      * Mock
      */
     @Mock
-    private DaoProxy daoProxy;
-
-    @Mock
-    private static ComptabiliteDao comptabiliteDao;
-
-    @Mock
     private ResultSet resultSet;
 
     /**
      * Set up for Mockito
      */
-    @Before
-    public void setUp() {
-        ConsumerHelper.configure(daoProxy);
-        Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
-    }
-
 
     /**
      * Unit Test RowMapper
