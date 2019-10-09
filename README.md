@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 # MyERP
 
 ## Organisation du répertoire
