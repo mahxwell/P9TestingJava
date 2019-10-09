@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-- oraclejdk8
+- openjdk8
 
 sudo: false
 
@@ -12,10 +12,8 @@ before_install:
 - cd docker/dev
 - docker-compose up -d
 
-before_script:
-- cd ../../src
-
 script:
+- cd ../../src
 - mvn test -Ptest-consumer,test-business
 - cd ../docker/dev
 - docker-compose stop
