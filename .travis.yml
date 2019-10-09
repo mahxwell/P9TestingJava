@@ -1,3 +1,4 @@
+repo_token: XmX2imAKazLvOcDcnxgYXJev7iNLSmaB7
 language: java
 
 jdk:
@@ -20,6 +21,7 @@ script:
 - docker-compose rm -f
 - docker-compose up -d
 - cd ../../src
+
 
 after_success: coveralls
 
