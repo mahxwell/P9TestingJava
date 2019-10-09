@@ -246,11 +246,11 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
              * Assert Test
              */
 
-            ecritureComptableToDelete.setLibelle("updateTest");
+         //   ecritureComptableToDelete.setLibelle("updateTest");
             /**
              * Update previously inserted values
              */
-            comptabiliteDao.updateEcritureComptable(ecritureComptableToDelete);
+         //   comptabiliteDao.updateEcritureComptable(ecritureComptableToDelete);
 
 
            // Assert.assertEquals(ecritureComptableM.getReference(), ecritureComptableToDelete.getReference());
