@@ -1,5 +1,4 @@
-require 'coveralls'
-Coveralls.wear!
+[![Coverage Status](https://coveralls.io/repos/github/mahxwell/P9TestingJava/badge.svg?branch=master)](https://coveralls.io/github/mahxwell/P9TestingJava?branch=master)
 
 # MyERP
 
