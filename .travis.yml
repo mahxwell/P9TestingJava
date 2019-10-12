@@ -22,7 +22,7 @@ script:
 - cd ../../src
 
 
-after_success: coveralls
+after_success: - mvn --file pom.xml cobertura:cobertura coveralls:report -P test-consumer,test-business
 
 notifications:
 email: false
