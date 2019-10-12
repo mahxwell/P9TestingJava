@@ -376,12 +376,12 @@
                     <version>1.10</version>
                 </plugin>
 
-                <!-- ===== code cov ===== -->
+                <!-- ===== Coveralls ===== -->
                 <plugin>
                     <groupId>org.eluder.coveralls</groupId>
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <configuration>
-                        <repoToken>ohoWZW4lQ1jRDfP4AKy5ijNlAxiKhdTvg</repoToken>
+                        <repoToken>iMkISKvksyAbbCMoIlYAraKqzr9J5Mo31</repoToken>
                     </configuration>
                     <version>4.3.0</version>
                 </plugin>
