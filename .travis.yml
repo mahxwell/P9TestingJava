@@ -24,7 +24,6 @@ script:
 
 after_success:
 - mvn clean cobertura:cobertura coveralls:report
-- mvn clean test jacoco:report coveralls:report
 
 notifications:
 email: false
