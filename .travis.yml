@@ -14,7 +14,7 @@ before_install:
 
 script:
 - cd ../../src
-- mvn test -Ptest-consumer,test-business
+- mvn test -P test-consumer,test-business
 - cd ../docker/dev
 - docker-compose stop
 - docker-compose rm -f
@@ -24,7 +24,7 @@ script:
 
 after_success:
 #- mvn --file pom.xml cobertura:cobertura coveralls:report -P test-consumer,test-business
-- mvn clean test jacoco:report coveralls:report -P test-consumer,test-business
+- mvn --file pom.xml cobertura:cobertura coveralls:report jacoco:report -P test-consumer,test-business
 
 notifications:
 email: false
