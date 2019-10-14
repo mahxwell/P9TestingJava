@@ -239,30 +239,39 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
             /**
              * Get Previously created ecriture comptable obj
              */
-            EcritureComptable ecritureComptableToDelete = comptabiliteDao.getEcritureComptableByRef("MM-2019/77777");
+            try {
+                EcritureComptable ecritureComptableToDelete = comptabiliteDao.getEcritureComptableByRef("MM-2019/77777");
 
 
-            /**
-             * Assert Test
-             */
+                /**
+                 * Assert Test
+                 */
 
-            ecritureComptableToDelete.setLibelle("updateTest");
-            /**
-             * Update previously inserted values
-             */
+                ecritureComptableToDelete.setLibelle("updateTest");
+                /**
+                 * Update previously inserted values
+                 */
 
-
-            // NE FONCTIONNE PAS DANS TRAVIS TEST -> TIME OUT SUR UPDATE ? 
-          /*  comptabiliteDao.updateEcritureComptable(ecritureComptableToDelete);
+            comptabiliteDao.updateEcritureComptable(ecritureComptableToDelete);
 
 
             Assert.assertEquals(ecritureComptableM.getReference(), ecritureComptableToDelete.getReference());
-            Assert.assertEquals("updateTest", ecritureComptableToDelete.getLibelle());*/
+            Assert.assertEquals("updateTest", ecritureComptableToDelete.getLibelle());
 
-            /**
-             * Delete previously inserted values
-             */
-            comptabiliteDao.deleteEcritureComptable(ecritureComptableToDelete.getId());
+                /**
+                 * Delete previously inserted values
+                 */
+                comptabiliteDao.deleteEcritureComptable(ecritureComptableToDelete.getId());
+            } catch (DuplicateKeyException e) {
+                logger.error(e);
+                throw new TechnicalException(DUPLICATE_KEY);
+            } catch (DataAccessException e) {
+                logger.error(e);
+                throw new TechnicalException(ACCESS_DATA);
+            } catch (Exception e) {
+                logger.error(e);
+                throw new FunctionalException(FUNCTIONAL);
+            }
         } catch (DuplicateKeyException e) {
             logger.error(e);
             throw new TechnicalException(DUPLICATE_KEY);
