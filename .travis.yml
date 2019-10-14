@@ -23,7 +23,7 @@ script:
 
 
 after_success:
-- mvn clean cobertura:cobertura coveralls:report
+ -P test-consumer,test-business
 
 notifications:
 email: false
