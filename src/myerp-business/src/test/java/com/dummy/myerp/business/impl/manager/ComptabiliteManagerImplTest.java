@@ -2,6 +2,7 @@ package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.TechnicalException;
@@ -84,6 +85,39 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
         sequenceEcritureComptable.setDerniereValeur(pDerniereValeur);
     }
 
+    // ==================== Getters and Setters Method Test ========================
+
+
+    @Test
+    public void getListComptable() {
+
+        List<CompteComptable> compteComptables = comptabiliteManager.getListCompteComptable();
+
+        List<CompteComptable> compteComptables2 = comptabiliteManager.getListCompteComptable();
+
+        Assert.assertEquals(compteComptables.toString(), compteComptables2.toString());
+    }
+
+    @Test
+    public void getListJournalComptable() {
+
+        List<JournalComptable> journalComptables = comptabiliteManager.getListJournalComptable();
+
+        List<JournalComptable> journalComptables2 = comptabiliteManager.getListJournalComptable();
+
+        Assert.assertEquals(journalComptables.toString(), journalComptables2.toString());
+    }
+
+    @Test
+    public void getListEcritureComptable() {
+
+        List<EcritureComptable> ecritureComptables = comptabiliteManager.getListEcritureComptable();
+
+        List<EcritureComptable> ecritureComptables2 = comptabiliteManager.getListEcritureComptable();
+
+        Assert.assertEquals(ecritureComptables.toString(), ecritureComptables2.toString());
+    }
+
 
     // ==================== addReference Method Test ===============================
 
@@ -95,6 +129,22 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
          */
         getInitEC("AC", "Achat",
                 "Libelle", "AC-2019/00001",
+                401, 666, 411, 666);
+
+        /**
+         * Add set reference of ecritureComptableM
+         */
+        comptabiliteManager.addReference(ecritureComptableM);
+    }
+
+    @Test
+    public void addReferenceExisting() throws Exception {
+
+        /**
+         * Initialize ecritureComptableM with arguments
+         */
+        getInitEC("AC", "Achat",
+                "Libelle", "AC-2016/00001",
                 401, 666, 411, 666);
 
         /**
@@ -259,6 +309,22 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
          */
         getInitEC("AC", "Achat",
                 "Libelle", "AC-2019/00001",
+                401, 666, 411, 666);
+
+        /**
+         * Check ecritureComptableContext with ecritureComptableM
+         */
+        comptabiliteManager.checkEcritureComptableContext(ecritureComptableM);
+    }
+
+    @Test(expected = FunctionalException.class)
+    public void checkEcritureComptableContextExisting() throws Exception {
+
+        /**
+         * Initialize ecritureComptableM with arguments
+         */
+        getInitEC("AC", "Achat",
+                "Libelle", "AC-2016/00001",
                 401, 666, 411, 666);
 
         /**
