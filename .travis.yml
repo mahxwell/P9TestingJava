@@ -24,7 +24,7 @@ script:
 
 after_success:
 #- mvn --file pom.xml cobertura:cobertura coveralls:report -P test-consumer,test-business
-- mvn --file pom.xml cobertura:cobertura coveralls:report jacoco:report -P test-consumer,test-business
+- mvn --file pom.xml cobertura:cobertura jacoco:report coveralls:report -P test-consumer,test-business
 
 notifications:
 email: false
