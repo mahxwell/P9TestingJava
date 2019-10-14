@@ -232,7 +232,7 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
             /**
              * Insert ecritureComptable into DataBase
              */
-           // comptabiliteDao.insertEcritureComptable(ecritureComptableM);
+            comptabiliteDao.insertEcritureComptable(ecritureComptableM);
 
             /**
              * Get Previously created ecriture comptable obj
