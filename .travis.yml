@@ -23,7 +23,7 @@ script:
 
 
 after_success:
- -P test-consumer,test-business
+- mvn --file pom.xml cobertura:cobertura coveralls:report -P test-consumer,test-business
 
 notifications:
 email: false
