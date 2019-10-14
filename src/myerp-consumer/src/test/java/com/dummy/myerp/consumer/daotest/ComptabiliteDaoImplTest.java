@@ -202,7 +202,7 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
             /**
              * Delete previous inserted Values
              */
-            comptabiliteDao.deleteEcritureComptable(ecritureComptableToDelete.getId());
+         //   comptabiliteDao.deleteEcritureComptable(ecritureComptableToDelete.getId());
         } catch (DuplicateKeyException e) {
             logger.error(e);
             throw new TechnicalException(DUPLICATE_KEY);
@@ -234,7 +234,7 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
             /**
              * Insert ecritureComptable into DataBase
              */
-            comptabiliteDao.insertEcritureComptable(ecritureComptableM);
+           // comptabiliteDao.insertEcritureComptable(ecritureComptableM);
 
             /**
              * Get Previously created ecriture comptable obj
