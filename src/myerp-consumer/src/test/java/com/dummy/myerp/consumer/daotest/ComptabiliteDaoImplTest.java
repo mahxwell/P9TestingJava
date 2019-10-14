@@ -202,7 +202,7 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
             /**
              * Delete previous inserted Values
              */
-         //   comptabiliteDao.deleteEcritureComptable(ecritureComptableToDelete.getId());
+            comptabiliteDao.deleteEcritureComptable(ecritureComptableToDelete.getId());
         } catch (DuplicateKeyException e) {
             logger.error(e);
             throw new TechnicalException(DUPLICATE_KEY);
@@ -229,8 +229,6 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
          */
         getInitEC();
 
-        try {
-
             /**
              * Insert ecritureComptable into DataBase
              */
@@ -239,7 +237,6 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
             /**
              * Get Previously created ecriture comptable obj
              */
-            try {
                 EcritureComptable ecritureComptableToDelete = comptabiliteDao.getEcritureComptableByRef("MM-2019/77777");
 
 
@@ -262,26 +259,6 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
                  * Delete previously inserted values
                  */
                 comptabiliteDao.deleteEcritureComptable(ecritureComptableToDelete.getId());
-            } catch (DuplicateKeyException e) {
-                logger.error(e);
-                throw new TechnicalException(DUPLICATE_KEY);
-            } catch (DataAccessException e) {
-                logger.error(e);
-                throw new TechnicalException(ACCESS_DATA);
-            } catch (Exception e) {
-                logger.error(e);
-                throw new FunctionalException(FUNCTIONAL);
-            }
-        } catch (DuplicateKeyException e) {
-            logger.error(e);
-            throw new TechnicalException(DUPLICATE_KEY);
-        } catch (DataAccessException e) {
-            logger.error(e);
-            throw new TechnicalException(ACCESS_DATA);
-        } catch (Exception e) {
-            logger.error(e);
-            throw new FunctionalException(FUNCTIONAL);
-        }
     }
 
 
