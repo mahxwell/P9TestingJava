@@ -1,4 +1,4 @@
-package com.dummy.myerp.consumer.daotest;
+package com.dummy.myerp.consumer.daotest.resultsethelper;
 
 import com.dummy.myerp.consumer.ConsumerHelper;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
@@ -17,11 +17,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ResultHelperTest extends ResultSetHelper {
+public class GetDate extends ResultSetHelper {
 
-/**
- * Using Mockito To Test Spring RowMapper
- */
+    /**
+     * Using Mockito To Test Spring RowMapper
+     */
 
     /**
      * Mock
@@ -45,46 +45,6 @@ public class ResultHelperTest extends ResultSetHelper {
     }
 
     @Test
-    public void getInteger() throws SQLException {
-
-        EcritureComptableRM ecritureComptableRM = new EcritureComptableRM();
-
-        /**
-         * Get Row Name and add value in it
-         */
-        Mockito.when(resultSet.getInt("id")).thenReturn(1);
-        Mockito.when(resultSet.getString("journal_code")).thenReturn("ABCTEST");
-        Mockito.when(resultSet.getString("reference")).thenReturn("TESTROW");
-        Mockito.when(resultSet.getString("libelle")).thenReturn("TestLib");
-
-        EcritureComptable ecritureComptable1 = ecritureComptableRM.mapRow(resultSet, 0);
-
-        EcritureComptable ecritureComptable2 = ecritureComptableRM.mapRow(resultSet, 0);
-
-        getInteger(resultSet, "journal_code");
-    }
-
-    @Test
-    public void getLong() throws SQLException {
-
-        EcritureComptableRM ecritureComptableRM = new EcritureComptableRM();
-
-        /**
-         * Get Row Name and add value in it
-         */
-        Mockito.when(resultSet.getInt("id")).thenReturn(1);
-        Mockito.when(resultSet.getString("journal_code")).thenReturn("ABCTEST");
-        Mockito.when(resultSet.getString("reference")).thenReturn("TESTROW");
-        Mockito.when(resultSet.getString("libelle")).thenReturn("TestLib");
-
-        EcritureComptable ecritureComptable1 = ecritureComptableRM.mapRow(resultSet, 0);
-
-        EcritureComptable ecritureComptable2 = ecritureComptableRM.mapRow(resultSet, 0);
-
-        getInteger(resultSet, "journal_code");
-    }
-
-    @Test
     public void getDate() throws SQLException {
 
         EcritureComptableRM ecritureComptableRM = new EcritureComptableRM();
@@ -101,6 +61,6 @@ public class ResultHelperTest extends ResultSetHelper {
 
         EcritureComptable ecritureComptable2 = ecritureComptableRM.mapRow(resultSet, 0);
 
-        getInteger(resultSet, "journal_code");
+        getDate(resultSet, "journal_code");
     }
 }
