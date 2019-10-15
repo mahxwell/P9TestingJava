@@ -1,5 +1,8 @@
+## Travis CI
+
 [![Build Status](https://travis-ci.org/mahxwell/P9TestingJava.svg?branch=master)](https://travis-ci.org/mahxwell/P9TestingJava)
 
+## Coveralls
 [![Coverage Status](https://coveralls.io/repos/github/mahxwell/P9TestingJava/badge.svg?branch=master)](https://coveralls.io/github/mahxwell/P9TestingJava?branch=master)
 
 # MyERP
