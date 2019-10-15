@@ -1,6 +1,7 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Assert;
@@ -8,6 +9,9 @@ import org.junit.Test;
 
 
 public class EcritureComptableTest {
+
+
+    // ============ Initialize ================
 
     private LigneEcritureComptable createLigne(Integer pCompteComptableNumero, String pDebit, String pCredit) {
         BigDecimal vDebit = pDebit == null ? null : new BigDecimal(pDebit);
@@ -19,6 +23,134 @@ public class EcritureComptableTest {
                 vDebit, vCredit);
         return vRetour;
     }
+
+    // ============ Getters / Setters ================
+
+    public EcritureComptable ecritureComptableInitializer() {
+
+        EcritureComptable ecritureComptableM = new EcritureComptable();
+
+        ecritureComptableM.getListLigneEcriture().add(this.createLigne(1, "200.50", "250"));
+        ecritureComptableM.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
+        ecritureComptableM.getListLigneEcriture().add(this.createLigne(2, null, "301"));
+        ecritureComptableM.getListLigneEcriture().add(this.createLigne(2, "40", "100"));
+
+        return ecritureComptableM;
+    }
+
+    @Test
+    public void getId() {
+
+        EcritureComptable ecritureComptable1 = ecritureComptableInitializer();
+        EcritureComptable ecritureComptable2 = ecritureComptableInitializer();
+
+        Assert.assertEquals(ecritureComptable1.getId(), ecritureComptable2.getId());
+    }
+
+    @Test
+    public void setId() {
+
+        EcritureComptable ecritureComptable1 = new EcritureComptable();
+        EcritureComptable ecritureComptable2 = new EcritureComptable();
+
+        ecritureComptable1.setId(12);
+        ecritureComptable2.setId(12);
+
+        Assert.assertEquals(ecritureComptable1.getId(), ecritureComptable2.getId());
+
+    }
+
+    @Test
+    public void getJournal() {
+
+        EcritureComptable ecritureComptable1 = ecritureComptableInitializer();
+        EcritureComptable ecritureComptable2 = ecritureComptableInitializer();
+
+        JournalComptable journalComptable1 = new JournalComptable("123", "777");
+        JournalComptable journalComptable2 = new JournalComptable("123", "777");
+
+        Assert.assertEquals(ecritureComptable1.getJournal(), ecritureComptable2.getJournal());
+    }
+
+    @Test
+    public void setJournal() {
+
+        EcritureComptable ecritureComptable1 = new EcritureComptable();
+        EcritureComptable ecritureComptable2 = new EcritureComptable();
+
+        JournalComptable journalComptable1 = new JournalComptable("123", "777");
+        JournalComptable journalComptable2 = new JournalComptable("123", "777");
+
+
+        ecritureComptable1.setJournal(journalComptable1);
+        ecritureComptable2.setJournal(journalComptable2);
+
+        Assert.assertEquals(ecritureComptable1.getJournal().toString(), ecritureComptable2.getJournal().toString());
+
+    }
+
+    @Test
+    public void getReference() {
+
+        EcritureComptable ecritureComptable1 = ecritureComptableInitializer();
+        EcritureComptable ecritureComptable2 = ecritureComptableInitializer();
+
+        Assert.assertEquals(ecritureComptable1.getReference(), ecritureComptable2.getReference());
+    }
+
+    @Test
+    public void setReference() {
+
+        EcritureComptable ecritureComptable1 = new EcritureComptable();
+        EcritureComptable ecritureComptable2 = new EcritureComptable();
+
+        ecritureComptable1.setReference("TestRef");
+        ecritureComptable2.setReference("TestRef");
+
+        Assert.assertEquals(ecritureComptable1.getReference(), ecritureComptable2.getReference());
+
+    }
+
+    @Test
+    public void getDate() {
+
+        EcritureComptable ecritureComptable1 = new EcritureComptable();
+        EcritureComptable ecritureComptable2 = new EcritureComptable();
+
+        Date date = new Date();
+
+        ecritureComptable1.setDate(date);
+        ecritureComptable2.setDate(date);
+
+        Assert.assertEquals(ecritureComptable1.getDate().toString(), ecritureComptable2.getDate().toString());
+    }
+
+    @Test
+    public void setDate() {
+
+        EcritureComptable ecritureComptable1 = new EcritureComptable();
+        EcritureComptable ecritureComptable2 = new EcritureComptable();
+
+        Date date = new Date();
+
+        ecritureComptable1.setDate(date);
+        ecritureComptable2.setDate(date);
+
+        Assert.assertEquals(ecritureComptable1.getDate().toString(), ecritureComptable2.getDate().toString());
+    }
+
+    @Test
+    public void getLibelle() {
+
+        EcritureComptable ecritureComptable1 = ecritureComptableInitializer();
+        EcritureComptable ecritureComptable2 = ecritureComptableInitializer();
+
+        Assert.assertEquals(ecritureComptable1.getLibelle(), ecritureComptable2.getLibelle());
+
+    }
+
+
+    // ============ Methods ==========================
 
     @Test
     public void isEquilibree() {
