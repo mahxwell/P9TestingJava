@@ -61,6 +61,6 @@ public class GetDate extends ResultSetHelper {
 
         EcritureComptable ecritureComptable2 = ecritureComptableRM.mapRow(resultSet, 0);
 
-        getDate(resultSet, "journal_code");
+        getDate(resultSet, "date");
     }
 }

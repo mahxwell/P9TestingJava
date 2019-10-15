@@ -19,8 +19,14 @@ public class AbstractDbConsumerTest extends AbstractDbConsumer {
 
     @Test(expected = NullPointerException.class)
     public void configureDataSource() {
-
         configure(mapDataSource);
     }
 
+    @Test
+    public void consumerHelperTest() {
+        ConsumerHelper consumerHelper = new ConsumerHelper() {
+        };
+
+        consumerHelper.toString();
+    }
 }
