@@ -9,4 +9,5 @@ public class BusinessProxyImplTest extends BusinessProxyImpl {
     public void getComptalibitéManagerTest() {
         getComptabiliteManager();
     }
+
 }

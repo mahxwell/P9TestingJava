@@ -13,11 +13,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GetDate extends ResultSetHelper {
+public class GetDateTest extends ResultSetHelper {
 
     /**
      * Using Mockito To Test Spring RowMapper
@@ -48,6 +50,8 @@ public class GetDate extends ResultSetHelper {
     public void getDate() throws SQLException {
 
         EcritureComptableRM ecritureComptableRM = new EcritureComptableRM();
+        Date date = new Date(System.currentTimeMillis());
+        Timestamp timestamp = new Timestamp(date.getTime());
 
         /**
          * Get Row Name and add value in it
@@ -55,6 +59,7 @@ public class GetDate extends ResultSetHelper {
         Mockito.when(resultSet.getInt("id")).thenReturn(1);
         Mockito.when(resultSet.getString("journal_code")).thenReturn("ABCTEST");
         Mockito.when(resultSet.getString("reference")).thenReturn("TESTROW");
+        Mockito.lenient().when(resultSet.getTimestamp("date")).thenReturn(timestamp);
         Mockito.when(resultSet.getString("libelle")).thenReturn("TestLib");
 
         EcritureComptable ecritureComptable1 = ecritureComptableRM.mapRow(resultSet, 0);

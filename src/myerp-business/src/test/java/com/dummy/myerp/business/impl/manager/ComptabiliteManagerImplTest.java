@@ -188,6 +188,33 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
         comptabiliteManager.checkEcritureComptableUnit(ecritureComptableM);
     }
 
+    /**
+     * Test for juste ONE ligneEcritureComptable
+     *
+     * @throws Exception
+     */
+    @Test(expected = FunctionalException.class)
+    public void checkEcritureComptableUnitLigne() throws Exception {
+
+        EcritureComptable ecritureComptable = new EcritureComptable();
+
+        /**
+         * Initialize EcritureComptable Object For Tests
+         *
+         * Set ecritureComptableM for futur Tests
+         */
+        ecritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        ecritureComptable.setDate(new Date());
+        ecritureComptable.setLibelle("Libelle");
+        ecritureComptable.setReference("YOLOLOLO");
+        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                null, new BigDecimal(666),
+                null));
+
+        comptabiliteManager.checkEcritureComptableUnit(ecritureComptable);
+
+    }
+
     // ==================== checkEcritureComptableUnitRG2 Method Test ==============
 
     @Test
@@ -284,7 +311,23 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
     }
 
     @Test(expected = FunctionalException.class)
-    public void checkEcritureComptableUnitRG5Violation() throws Exception {
+    public void checkEcritureComptableUnitRG5Violation1() throws Exception {
+
+        /**
+         * Initialize ecritureComptableM with arguments
+         */
+        getInitEC("AC", "Achat",
+                "Libelle", "OD-2019/00001",
+                401, 666, 411, 666);
+
+        /**
+         * Error in Gestion Rule 5 example
+         */
+        comptabiliteManager.checkEcritureComptableUnit(ecritureComptableM);
+    }
+
+    @Test(expected = FunctionalException.class)
+    public void checkEcritureComptableUnitRG5Violation2() throws Exception {
 
         /**
          * Initialize ecritureComptableM with arguments
