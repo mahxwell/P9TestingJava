@@ -6,6 +6,8 @@
 
 ## Code Coverage
 
+[![Coverage Status](https://coveralls.io/repos/github/mahxwell/P9TestingJava/badge.svg?branch=master)](https://coveralls.io/github/mahxwell/P9TestingJava?branch=master)
+
 
 ## Organisation du répertoire
 
